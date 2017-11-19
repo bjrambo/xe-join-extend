@@ -1,0 +1,140 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_editor.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
+<input type="hidden" name="config_type" value="after_config" />
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_welcome">{$lang->use_welcome}</label>
+			<div class="x_controls">
+            <select name="use_welcome" id="use_welcome">
+                <option value="N"<!--@if($config->use_welcome=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_welcome=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+                
+			<a href="#use_welcome_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_welcome_help" class="x_help-block" hidden>{$lang->about_use_welcome}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_welcome_email">{$lang->use_welcome_email}</label>
+			<div class="x_controls">
+            <select name="use_welcome_email" id="use_welcome_email">
+                <option value="N"<!--@if($config->use_welcome_email=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_welcome_email=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+                
+			<a href="#use_welcome_email_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_welcome_email_help" class="x_help-block" hidden>{$lang->about_use_welcome_email}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="welcome_title">{$lang->welcome_title}</label>
+			<div class="x_controls">
+				<input type="text" name="welcome_title" value="{$config->welcome_title}" class="inputTypeText w400" />
+                
+				<a href="#welcome_title_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="welcome_title_help" class="x_help-block" hidden>{$lang->about_welcome_title}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="welcome_email_title">{$lang->welcome_email_title}</label>
+			<div class="x_controls">
+				<input type="text" name="welcome_email_title" value="{$config->welcome_email_title}" class="inputTypeText w400" />
+                
+				<a href="#welcome_email_title_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="welcome_email_title_help" class="x_help-block" hidden>{$lang->about_welcome_email_title}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_notify_admin">{$lang->use_notify_admin}</label>
+			<div class="x_controls">
+            <select name="use_notify_admin" id="use_notify_admin">
+                <option value="N"<!--@if($config->use_notify_admin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="signin"<!--@if($config->use_notify_admin=='signin')--> selected="selected"<!--@end-->>{$lang->only_signin}</option>
+                <option value="signout"<!--@if($config->use_notify_admin=='signout')--> selected="selected"<!--@end-->>{$lang->only_signout}</option>
+                <option value="both"<!--@if($config->use_notify_admin=='both')--> selected="selected"<!--@end-->>{$lang->both}</option>
+            </select>
+                
+			<a href="#use_notify_admin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_notify_admin_help" class="x_help-block" hidden>{$lang->about_use_notify_admin}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="notify_admin_period">{$lang->notify_admin_period}</label>
+			<div class="x_controls">
+            <select name="notify_admin_period" id="notify_admin_period">
+                <option value="collect"<!--@if($config->notify_admin_period=='collect')--> selected="selected"<!--@end-->>{$lang->notify_collect}</option>
+                <option value="each"<!--@if($config->notify_admin_period=='each')--> selected="selected"<!--@end-->>{$lang->notify_each_time}</option>
+            </select>
+                
+			<a href="#notify_admin_period_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="notify_admin_period_help" class="x_help-block" hidden>{$lang->about_notify_admin_period}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="notify_admin_collect_number">{$lang->notify_admin_collect_number}</label>
+			<div class="x_controls">
+				<input type="text" name="notify_admin_collect_number" value="{$config->notify_admin_collect_number}" class="inputTypeText w40" />
+                
+				<a href="#notify_admin_collect_number_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="notify_admin_collect_number_help" class="x_help-block" hidden>{$lang->about_notify_admin_collect_number}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="notify_admin_method">{$lang->notify_admin_method}</label>
+			<div class="x_controls">
+            <select name="notify_admin_method" id="notify_admin_method">
+                <option value="message"<!--@if($config->notify_admin_method=='message')--> selected="selected"<!--@end-->>{$lang->message}</option>
+                <option value="email"<!--@if($config->notify_admin_method=='email')--> selected="selected"<!--@end-->>{$lang->email}</option>
+                <option value="both"<!--@if($config->notify_admin_method=='both')--> selected="selected"<!--@end-->>{$lang->both}</option>
+            </select>
+                
+			<a href="#notify_admin_method_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="notify_admin_method_help" class="x_help-block" hidden>{$lang->about_notify_admin_method}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)" class="x_form-horizontal">
+    <input type="hidden" name="type" value="welcome" />
+    <input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
+	<section class="section collapsed">
+		<h1>{$lang->welcome}</h1>
+		<div class="x_control-group">
+			<div class="x_controls" style="margin-left: 0px !important">
+				{$editor_welcome}
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+			</div>
+		</div>
+	</section>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)" class="x_form-horizontal">
+    <input type="hidden" name="type" value="welcome_email" />
+    <input type="hidden" name="welcome_email" value="{htmlspecialchars($config->welcome_email)}" />
+	<section class="section collapsed">
+		<h1>{$lang->welcome_email}</h1>
+		<div class="x_control-group">
+			<div class="x_controls" style="margin-left: 0px !important">
+				{$editor_welcome_email}
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+			</div>
+		</div>
+	</section>
+</form>

@@ -1,0 +1,19 @@
+<!--%import("js/join_extend_admin.js")-->
+<!--%import("filter/insert_config.xml")-->
+
+<h3 class="xeAdmin">{$lang->join_extend} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="x_nav x_nav-tabs">
+        <li <!--@if($act=='dispJoin_extendAdminIndex')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminIndex','page','')}">{$lang->basic_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminJuminConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminJuminConfig','page','')}">{$lang->jumin_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminAgreeConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminAgreeConfig','page','')}">{$lang->agree_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminExtendVarConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminExtendVarConfig','page','')}">{$lang->extend_var_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminRestrictionsConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminRestrictionsConfig','page','')}">{$lang->restrictions_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminAfterConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminAfterConfig','page','')}">{$lang->after_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminInputConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminInputConfig','page','')}">{$lang->input_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminInvitationConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminInvitationConfig','page','')}">{$lang->invitation_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminCouponConfig')-->class="x_active"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminCouponConfig','page','')}">{$lang->coupon_config}</a></li>
+    </ul>
+</div>
+

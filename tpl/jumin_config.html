@@ -1,0 +1,36 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_jumin">{$lang->use_jumin}</label>
+			<div class="x_controls">
+            <select name="use_jumin" id="use_jumin">
+                <option value="N"<!--@if($config->use_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+                
+			<a href="#use_jumin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_jumin_help" class="x_help-block" hidden>{$lang->about_use_jumin}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="save_jumin">{$lang->save_jumin}</label>
+			<div class="x_controls">
+            <select name="save_jumin" id="save_jumin">
+                <option value="N"<!--@if($config->save_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->save_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+
+			<a href="#save_jumin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="save_jumin_help" class="x_help-block" hidden>{$lang->about_save_jumin}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

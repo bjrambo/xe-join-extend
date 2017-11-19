@@ -1,0 +1,76 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
+<input type="hidden" name="config_type" value="extend_var_config" />
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->sex_var_name}</label>
+			<div class="x_controls">
+				<input type="text" name="sex_var_name" value="{$config->sex_var_name}"  class="inputTypeText w100" />
+                
+				<a href="#sex_var_name_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="sex_var_name_help" class="x_help-block" hidden>{$lang->about_sex_var_name}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->man_value}</label>
+			<div class="x_controls">
+				<input type="text" name="man_value" value="{$config->man_value}"  class="inputTypeText w100" />
+                
+				<a href="#man_value_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="man_value_help" class="x_help-block" hidden>{$lang->about_man_value}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->woman_value}</label>
+			<div class="x_controls">
+				<input type="text" name="woman_value" value="{$config->woman_value}"  class="inputTypeText w100" />
+                
+				<a href="#about_woman_value_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="about_woman_value_help" class="x_help-block" hidden>{$lang->about_woman_value}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->age_var_name}</label>
+			<div class="x_controls">
+				<input type="text" name="age_var_name" value="{$config->age_var_name}"  class="inputTypeText w100" />
+                
+				<a href="#age_var_name_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="age_var_name_help" class="x_help-block" hidden>{$lang->about_age_var_name}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->recoid_var_name}</label>
+			<div class="x_controls">
+				<input type="text" name="recoid_var_name" value="{$config->recoid_var_name}"  class="inputTypeText w100" />
+                
+				<a href="#recoid_var_name_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="recoid_var_name_help" class="x_help-block" hidden>{$lang->about_recoid_var_name}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->recoid_point}</label>
+			<div class="x_controls">
+				<input type="text" name="recoid_point" value="{$config->recoid_point}"  class="inputTypeText w100" />
+                
+				<a href="#recoid_point_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="recoid_point_help" class="x_help-block" hidden>{$lang->about_recoid_point}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->joinid_point}</label>
+			<div class="x_controls">
+				<input type="text" name="joinid_point" value="{$config->joinid_point}"  class="inputTypeText w100" />
+                
+				<a href="#joinid_point_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="joinid_point_help" class="x_help-block" hidden>{$lang->about_recabout_joinid_pointoid_point}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

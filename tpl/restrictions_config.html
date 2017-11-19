@@ -1,0 +1,51 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
+<input type="hidden" name="config_type" value="restrictions_config" />
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_sex_restrictions">{$lang->use_sex_restrictions}</label>
+			<div class="x_controls">
+            <select name="use_sex_restrictions" id="use_sex_restrictions">
+                <option value="N"<!--@if($config->use_sex_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="M"<!--@if($config->use_sex_restrictions=='M')--> selected="selected"<!--@end-->>{$lang->man}</option>
+                <option value="W"<!--@if($config->use_sex_restrictions=='W')--> selected="selected"<!--@end-->>{$lang->woman}</option>
+            </select>
+                
+			<a href="#use_sex_restrictions_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_sex_restrictions_help" class="x_help-block" hidden>{$lang->about_use_sex_restrictions}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_age_restrictions">{$lang->use_age_restrictions}</label>
+			<div class="x_controls">
+            <select name="use_age_restrictions" id="use_age_restrictions">
+                <option value="N"<!--@if($config->use_age_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_age_restrictions=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+                
+			<a href="#use_age_restrictions_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_age_restrictions_help" class="x_help-block" hidden>{$lang->about_use_age_restrictions}</p>
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label">{$lang->age_restrictions}</label>
+			<div class="x_controls">
+				<input type="text" name="age_restrictions" value="{$config->age_restrictions}"  class="inputTypeText w40" /> {$lang->great_than}
+				<input type="text" name="age_upper_restrictions" value="{$config->age_upper_restrictions}"  class="inputTypeText w40" /> {$lang->less_than}
+			</div>
+		</div>
+        <div class="x_control-group">
+			<label class="x_control-label" for="lang_browser_title">{$lang->browser_title}</label>
+			<div class="x_controls">
+				<input type="text" name="msg_junior_join" id="msg_junior_join" value="<!--@if(strpos($config->msg_junior_join, '$user_lang->') === false)-->{$config->msg_junior_join}<!--@else-->{htmlspecialchars($config->msg_junior_join)}<!--@end-->" class="lang_code" />
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

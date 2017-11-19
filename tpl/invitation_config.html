@@ -1,0 +1,145 @@
+<!--#include("header.html")-->
+<!--%import("filter/generate_invitation.xml")-->
+<!--%import("filter/delete_invitation.xml")-->
+
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
+        <div class="x_control-group">
+			<label class="x_control-label" for="use_invitation">{$lang->use_invitation}</label>
+			<div class="x_controls">
+            <select name="use_invitation" id="use_invitation">
+                <option value="N"<!--@if($config->use_invitation=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_invitation=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+
+			<a href="#use_invitation_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="use_invitation_help" class="x_help-block" hidden>{$lang->about_use_invitation}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, generate_invitation)" class="x_form-horizontal">
+	<section class="section">
+		<h1>{$lang->subtitle_primary}</h1>
+        <div class="x_control-group">
+			<label class="x_control-label" for="count">{$lang->generate_invitation}</label>
+			<div class="x_controls">
+				<input type="type=" name="count" class="inputTypeText w40" /> {$lang->unit_number},
+				
+				{$lang->validdate} : 
+				<input type="hidden" name="validdate" id="date_validdate" value="" />
+				<input type="text" value="" readonly="readonly" class="inputDate inputTypeText" />
+                
+				<a href="#count_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="count_help" class="x_help-block" hidden>{$lang->about_generate_invitation}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit" accesskey="s">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>
+
+<!-- 삭제를 위한 임시 form -->
+<form id="fo_invitation" action="./" method="get">
+    <input type="hidden" name="invitation_srls" value="" />
+</form>
+
+<form action="./" method="get" id="invitation_list">
+    <input type="hidden" name="module" value="admin" />
+    <input type="hidden" name="act" value="{$act}" />
+    <select name="joindate">
+        <option value="">{$lang->my_view_all}</option>
+        <option value="-" <!--@if($joindate=="-")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
+    </select>
+    <button type="submit" class="x_btn" style="margin-top: -10px;">{$lang->view}</button>
+    <table class="x_table x_table-striped x_table-hover" cellspacing="0">
+    <tr>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div>{$lang->invitation_code}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->validdate}</div></th>
+        <th scope="col"><div>{$lang->invitation_join_id}</div></th>
+        <th scope="col"><div>{$lang->invitation_joindate}</div></th>
+        <th scope="col"><div>&nbsp;</div></th>
+    </tr>
+    <!--@foreach($invitation_list as $no => $val)-->
+    <tr>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->invitation_srl}" /></td>
+        <td>{$no}</td>
+        <td style="font-family: monospace">{$val->code}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td>{zdate($val->validdate,"Y-m-d")}</td>
+        <td>{$val->join_id}</td>
+        <td>{zdate($val->joindate,"Y-m-d")}</td>
+        <td><a href="#" onclick="doDeleteInvitation('{$val->invitation_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="x_btn"><span>{$lang->cmd_delete}</span></a></td>
+    </tr>
+    <!--@end-->
+    </table>
+</form>
+<div class="fl">
+    <a href="#" onclick="doDeleteInvitations();return false;" class="x_btn"><span>{$lang->cmd_delete}</span></a>
+</div>
+
+<!-- 페이지 네비게이션 -->
+<form action="./" class="x_pagination x_pull-left" style="margin:10px 0 0 0">
+	<input type="hidden" name="error_return_url" value="" />
+	<input type="hidden" name="module" value="{$module}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<ul>
+		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		{@$last_page = $page_no}
+		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<!--@end-->
+
+		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+		{@$isGoTo = true}
+		<li>
+			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+			<span cond="$isGoTo" id="goTo" class="x_input-append">
+				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+				<button type="submit" class="x_add-on">Go</button>
+			</span>
+		</li>
+		</block>
+		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</form>
+
+<script type="text/javascript">
+(function($){
+    $(function(){
+        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+
+            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+        };
+        $.extend(option,$.datepicker.regional['{$lang_type}']);
+        $(".inputDate").datepicker(option);
+    });
+})(jQuery);
+</script>
