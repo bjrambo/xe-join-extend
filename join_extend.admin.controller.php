@@ -284,12 +284,8 @@ class join_extendAdminController extends join_extend
 		unset($config->private_gathering_agreement);
 		unset($config->welcome);
 		$output = $oModuleController->insertModuleConfig('join_extend', $config);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
 
-		return new Object(0, 'success_updated');
+		return $output;
 	}
 
 	/**
