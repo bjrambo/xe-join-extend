@@ -9,25 +9,27 @@ class join_extendAdminController extends join_extend
 {
 
 	/**
-	 * @brief 초기화
+	 * @brief init
 	 **/
 	function init()
 	{
 	}
 
 	/**
-	 * @brief 모듈 설정 저장
+	 * @brief save to module setting
 	 **/
 	function procJoin_extendAdminInsertConfig()
 	{
 		/** @var $oJoinExtendModel join_extendModel */
-		$oJoinExtendModel = &getModel('join_extend');
-		$config = $oJoinExtendModel->getConfig();
-		$obj = Context::getRequestVars();
-		$config_type = $obj->config_type;
-		unset($obj->config_type);
+		$oJoinExtendModel = getModel('join_extend');
+		$oModuleController = getController('module');
 
-		// 입력항목 설정일 경우 기존 일력항목 설정 값은 초기화
+		$obj = Context::getRequestVars();
+
+		$config = $oJoinExtendModel->getConfig();
+		$config_act = $obj->config_act;
+		unset($obj->config_act);
+
 		if (isset($obj->user_name_type))
 		{
 			$config_list = get_object_vars($config);
@@ -43,15 +45,8 @@ class join_extendAdminController extends join_extend
 			}
 		}
 
-		// TODO: insert to editor config in join_extend module.
-		unset($config->agreement);
-		unset($config->private_agreement);
-		unset($config->private_gathering_agreement);
-		unset($config->welcome);
-		unset($config->welcome_email);
-
-		// 값이 없을 때
-		if ($config_type == "after_config")
+		// TODO $config_act to display action name.
+		if ($config_act == "after_config")
 		{
 			if (!$obj->welcome_title)
 			{
@@ -66,14 +61,14 @@ class join_extendAdminController extends join_extend
 				$obj->notify_admin_collect_number = '';
 			}
 		}
-		if ($config_type == "coupon_config")
+		if ($config_act == "coupon_config")
 		{
 			if (!$obj->coupon_var_name)
 			{
 				$obj->coupon_var_name = '';
 			}
 		}
-		if ($config_type == "extend_var_config")
+		if ($config_act == "extend_var_config")
 		{
 			if (!$obj->sex_var_name)
 			{
@@ -104,14 +99,14 @@ class join_extendAdminController extends join_extend
 				$obj->joinid_point = '';
 			}
 		}
-		if ($config_type == "index")
+		if ($config_act == "index")
 		{
 			if (!$obj->admin_id)
 			{
 				$obj->admin_id = '';
 			}
 		}
-		if ($config_type == "input_config")
+		if ($config_act == "input_config")
 		{
 			$config_list = get_object_vars($obj);
 			if (count($config_list))
@@ -133,7 +128,7 @@ class join_extendAdminController extends join_extend
 				}
 			}
 		}
-		if ($config_type == "restrictions_config")
+		if ($config_act == "restrictions_config")
 		{
 			if (!$obj->age_restrictions)
 			{
@@ -149,7 +144,7 @@ class join_extendAdminController extends join_extend
 			}
 		}
 
-		// 새 설정을 기존 설정과 합친다.
+		// Merge to old config when set new config.
 		$config_list = get_object_vars($obj);
 		if (count($config_list))
 		{
@@ -159,16 +154,28 @@ class join_extendAdminController extends join_extend
 			}
 		}
 
-		// module Controller 객체 생성하여 입력
-		$oModuleController = &getController('module');
 		$output = $oModuleController->insertModuleConfig('join_extend', $config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success');
+
 		if (Context::get('success_return_url'))
 		{
 			$this->setRedirectUrl(Context::get('success_return_url'));
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminIndex'));
+			if($config_act)
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', $config_act));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminIndex'));
+			}
 		}
 	}
 
