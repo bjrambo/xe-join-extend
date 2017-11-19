@@ -227,7 +227,7 @@ class join_extendAdminController extends join_extend
 	{
 		// 기존 설정을 가져온다.
 		$oJoinExtendModel = &getModel('join_extend');
-		$config = $oJoinExtendModel->_getConfig(false, false);
+		$config = $oJoinExtendModel->getConfig();
 
 		// 에디터는 별도 저장
 		$oModuleController = &getController('module');

@@ -89,22 +89,6 @@ class join_extendModel extends join_extend
 	}
 
 	/**
-	 * @brief 설정을 받아옴
-	 **/
-	function _getConfig($input_config = true, $editor_config = true)
-	{
-		$oModuleModel = &getModel('module');
-		$config = $oModuleModel->getModuleConfig('join_extend');
-		if (!$config)
-		{
-			$config = new stdClass();
-		}
-
-
-		return clone($config);
-	}
-
-	/**
 	 * @brief 올바른 주민번호인지 확인
 	 **/
 	function isValid()
@@ -507,7 +491,7 @@ class join_extendModel extends join_extend
 	 **/
 	function isUpdateEditor()
 	{
-		$config = $this->_getConfig(false, false);
+		$config = $this->getConfig();
 
 		if (isset($config->agreement) || isset($config->private_agreement) || isset($config->private_gathering_agreement) || isset($config->welcome))
 		{
