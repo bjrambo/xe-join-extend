@@ -20,7 +20,8 @@ class join_extendAdminView extends join_extend
 	 **/
 	function dispJoin_extendAdminIndex()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		/** @var $oJoinExtendModel join_extendModel */
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		$is_update_table = $oJoinExtendModel->isUpdateTable();
 		Context::set('config', $config);
@@ -194,65 +195,46 @@ class join_extendAdminView extends join_extend
 
 	/**
 	 * @brief 특정 스킨에 속한 컬러셋 목록을 return
+	 * @TODO: set to type in just use this method. It's will delete getJoin_extendAdminMColorset function.
 	 **/
 	function getJoin_extendAdminColorset()
 	{
 		$skin = Context::get('skin');
-
-		if (!$skin)
+		$type = Context::get('type');
+		if ($type == 'mobile')
 		{
-			$tpl = "";
+			$mskin = Context::get('mskin');
 		}
-		else
+
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('join_extend');
+		if ($type == 'pc')
 		{
-			$oModuleModel = &getModel('module');
 			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-			Context::set('skin_info', $skin_info);
-
-			$oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('join_extend');
 			if (!$config->colorset)
 			{
 				$config->colorset = "white";
 			}
-			Context::set('config', $config);
-
-			$oTemplate = &TemplateHandler::getInstance();
-			$tpl = $oTemplate->compile($this->module_path . 'tpl', 'colorset_list');
-		}
-
-		$this->add('tpl', $tpl);
-	}
-
-
-	/**
-	 * @brief 특정 스킨에 속한 컬러셋 목록을 return
-	 **/
-	function getJoin_extendAdminMColorset()
-	{
-		$skin = Context::get('mskin');
-
-		if (!$skin)
-		{
-			$tpl = "";
+			Context::set('skin_info', $skin_info);
+			$teplatefile = 'colorset_list';
 		}
 		else
 		{
-			$oModuleModel = &getModel('module');
-			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin, "m.skins");
-			Context::set('skin_info', $skin_info);
-
-			$oModuleModel = &getModel('module');
-			$config = $oModuleModel->getModuleConfig('join_extend');
-			if (!$config->colorset)
+			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $mskin, "m.skins");
+			if (!$config->mcolorset)
 			{
-				$config->colorset = "white";
+				$config->mcolorset = "white";
 			}
-			Context::set('config', $config);
-
-			$oTemplate = &TemplateHandler::getInstance();
-			$tpl = $oTemplate->compile($this->module_path . 'tpl', 'colorset_list');
+			Context::set('mskin_info', $skin_info);
+			$teplatefile = 'mcolorset_list';
 		}
+
+		Context::set('type', $type);
+
+		Context::set('config', $config);
+
+		$oTemplate = TemplateHandler::getInstance();
+		$tpl = $oTemplate->compile($this->module_path . 'tpl', $teplatefile);
 
 		$this->add('tpl', $tpl);
 	}

@@ -20,14 +20,15 @@ class join_extendAdminController extends join_extend
 	 **/
 	function procJoin_extendAdminInsertConfig()
 	{
+		/** @var $oJoinExtendModel join_extendModel */
 		$oJoinExtendModel = &getModel('join_extend');
-		$config = $oJoinExtendModel->_getConfig(false, false);
-		$new_config = Context::getRequestVars();
-		$config_type = $new_config->config_type;
-		unset($new_config->config_type);
+		$config = $oJoinExtendModel->getConfig();
+		$obj = Context::getRequestVars();
+		$config_type = $obj->config_type;
+		unset($obj->config_type);
 
 		// 입력항목 설정일 경우 기존 일력항목 설정 값은 초기화
-		if (isset($new_config->user_name_type))
+		if (isset($obj->user_name_type))
 		{
 			$config_list = get_object_vars($config);
 			if (count($config_list))
@@ -41,9 +42,8 @@ class join_extendAdminController extends join_extend
 				}
 			}
 		}
-		unset($config->input_config);
 
-		// 에디터 내용 없앰
+		// TODO: insert to editor config in join_extend module.
 		unset($config->agreement);
 		unset($config->private_agreement);
 		unset($config->private_gathering_agreement);
@@ -53,67 +53,67 @@ class join_extendAdminController extends join_extend
 		// 값이 없을 때
 		if ($config_type == "after_config")
 		{
-			if (!$new_config->welcome_title)
+			if (!$obj->welcome_title)
 			{
-				$new_config->welcome_title = '';
+				$obj->welcome_title = '';
 			}
-			if (!$new_config->welcome_email_title)
+			if (!$obj->welcome_email_title)
 			{
-				$new_config->welcome_email_title = '';
+				$obj->welcome_email_title = '';
 			}
-			if (!$new_config->notify_admin_collect_number)
+			if (!$obj->notify_admin_collect_number)
 			{
-				$new_config->notify_admin_collect_number = '';
+				$obj->notify_admin_collect_number = '';
 			}
 		}
 		if ($config_type == "coupon_config")
 		{
-			if (!$new_config->coupon_var_name)
+			if (!$obj->coupon_var_name)
 			{
-				$new_config->coupon_var_name = '';
+				$obj->coupon_var_name = '';
 			}
 		}
 		if ($config_type == "extend_var_config")
 		{
-			if (!$new_config->sex_var_name)
+			if (!$obj->sex_var_name)
 			{
-				$new_config->sex_var_name = '';
+				$obj->sex_var_name = '';
 			}
-			if (!$new_config->man_value)
+			if (!$obj->man_value)
 			{
-				$new_config->man_value = '';
+				$obj->man_value = '';
 			}
-			if (!$new_config->woman_value)
+			if (!$obj->woman_value)
 			{
-				$new_config->woman_value = '';
+				$obj->woman_value = '';
 			}
-			if (!$new_config->age_var_name)
+			if (!$obj->age_var_name)
 			{
-				$new_config->age_var_name = '';
+				$obj->age_var_name = '';
 			}
-			if (!$new_config->recoid_var_name)
+			if (!$obj->recoid_var_name)
 			{
-				$new_config->recoid_var_name = '';
+				$obj->recoid_var_name = '';
 			}
-			if (!$new_config->recoid_point)
+			if (!$obj->recoid_point)
 			{
-				$new_config->recoid_point = '';
+				$obj->recoid_point = '';
 			}
-			if (!$new_config->joinid_point)
+			if (!$obj->joinid_point)
 			{
-				$new_config->joinid_point = '';
+				$obj->joinid_point = '';
 			}
 		}
 		if ($config_type == "index")
 		{
-			if (!$new_config->admin_id)
+			if (!$obj->admin_id)
 			{
-				$new_config->admin_id = '';
+				$obj->admin_id = '';
 			}
 		}
 		if ($config_type == "input_config")
 		{
-			$config_list = get_object_vars($new_config);
+			$config_list = get_object_vars($obj);
 			if (count($config_list))
 			{
 				foreach ($config_list as $var_name => $val)
@@ -121,13 +121,13 @@ class join_extendAdminController extends join_extend
 					if (strpos($var_name, "_type"))
 					{
 						$name = substr($var_name, 0, -5);
-						if (!$new_config->{$name . "_lower_length"})
+						if (!$obj->{$name . "_lower_length"})
 						{
-							$new_config->{$name . "_lower_length"} = '';
+							$obj->{$name . "_lower_length"} = '';
 						}
-						if (!$new_config->{$name . "_upper_length"})
+						if (!$obj->{$name . "_upper_length"})
 						{
-							$new_config->{$name . "_upper_length"} = '';
+							$obj->{$name . "_upper_length"} = '';
 						}
 					}
 				}
@@ -135,22 +135,22 @@ class join_extendAdminController extends join_extend
 		}
 		if ($config_type == "restrictions_config")
 		{
-			if (!$new_config->age_restrictions)
+			if (!$obj->age_restrictions)
 			{
-				$new_config->age_restrictions = '';
+				$obj->age_restrictions = '';
 			}
-			if (!$new_config->age_upper_restrictions)
+			if (!$obj->age_upper_restrictions)
 			{
-				$new_config->age_upper_restrictions = '';
+				$obj->age_upper_restrictions = '';
 			}
-			if (!$new_config->msg_junior_join)
+			if (!$obj->msg_junior_join)
 			{
-				$new_config->msg_junior_join = '';
+				$obj->msg_junior_join = '';
 			}
 		}
 
 		// 새 설정을 기존 설정과 합친다.
-		$config_list = get_object_vars($new_config);
+		$config_list = get_object_vars($obj);
 		if (count($config_list))
 		{
 			foreach ($config_list as $var_name => $val)
@@ -162,7 +162,14 @@ class join_extendAdminController extends join_extend
 		// module Controller 객체 생성하여 입력
 		$oModuleController = &getController('module');
 		$output = $oModuleController->insertModuleConfig('join_extend', $config);
-		return $output;
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminIndex'));
+		}
 	}
 
 	/**

@@ -1,0 +1,6 @@
+<div loop="$mskin_info->colorset => $key, $val" style="padding:3px 0 0 0;display:inline-block;*display:inline;zoom:1;min-width:220px;vertical-align:top" cond="$type != 'pc'">
+	<label for="mcolorset_{$key}"><input type="radio" name="mcolorset" value="{$val->name}" id="mcolorset_{$key}" checked="checked"|cond="$config->mcolorset==$val->name" /> {$val->title}</label>
+	<div class="x_thumbnail" cond="$val->screenshot" style="display:inline-block;*display:inline;zoom:1;min-width:200px">
+		<img src="{$val->screenshot}" alt="{$val->title}" style="min-width:200px" />
+	</div>
+</div>

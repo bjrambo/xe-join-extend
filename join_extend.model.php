@@ -7,66 +7,34 @@
 
 class join_extendModel extends join_extend
 {
+	private static $config = null;
 
 	/**
 	 * @brief 설정을 받아옴
 	 **/
-	function getConfig($input_config = true)
+	function getConfig()
 	{
-		if (!isset($GLOBALS['__join_extend__']['config_with_input_config']))
+		/** @var $oModuleModel moduleModel */
+		$oModuleModel = getModel('module');
+		if (self::$config === null)
 		{
-			$GLOBALS['__join_extend__']['config_with_input_config'] = $this->_getConfig();
-		}
-		if (!isset($GLOBALS['__join_extend__']['config']))
-		{
-			$GLOBALS['__join_extend__']['config'] = $this->_getConfig(false);
-		}
+			$config = $oModuleModel->getModuleConfig('join_extend');
+			// Check in config for XE1.
+			if ($config === null)
+			{
+				$config = new stdClass();
+			}
+			// 기본값
+			if (!$config->skin)
+			{
+				$config->skin = 'default';
+			}
+			if (!$config->notify_admin_collect_number)
+			{
+				$config->notify_admin_collect_number = 10;
+			}
 
-		if ($input_config)
-		{
-			return clone($GLOBALS['__join_extend__']['config_with_input_config']);
-		}
-		else
-		{
-			return clone($GLOBALS['__join_extend__']['config']);
-		}
-	}
-
-	/**
-	 * @brief 설정을 받아옴
-	 **/
-	function _getConfig($input_config = true, $editor_config = true)
-	{
-		$oModuleModel = &getModel('module');
-		$config = $oModuleModel->getModuleConfig('join_extend');
-		if (!$config)
-		{
-			$config = new stdClass();
-		}
-
-		// 기본값
-		if (!$config->skin)
-		{
-			$config->skin = 'default';
-		}
-		if (!$config->notify_admin_collect_number)
-		{
-			$config->notify_admin_collect_number = 10;
-		}
-
-		// 에디터 내용을 가져온다.
-		if ($editor_config == true)
-		{
-			$config->agreement = $oModuleModel->getModuleConfig('join_extend_editor_agreement')->agreement;
-			$config->private_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_agreement')->private_agreement;
-			$config->private_gathering_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_gathering_agreement')->private_gathering_agreement;
-			$config->welcome = $oModuleModel->getModuleConfig('join_extend_editor_welcome')->welcome;
-			$config->welcome_email = $oModuleModel->getModuleConfig('join_extend_editor_welcome_email')->welcome_email;
-		}
-
-		// 정보입력 설정을 적당히 가공한다.
-		if ($input_config == true)
-		{
+			// TODO : we need to change to array?
 			$array_config = get_object_vars($config);
 			if (is_array($array_config))
 			{
@@ -114,7 +82,25 @@ class join_extendModel extends join_extend
 			$config->input_config->lower_length = $lower_length;
 			$config->input_config->upper_length = $upper_length;
 			$config->input_config->type = $type;
+			self::$config = $config;
 		}
+
+		return self::$config;
+	}
+
+	/**
+	 * @brief 설정을 받아옴
+	 **/
+	function _getConfig($input_config = true, $editor_config = true)
+	{
+		$oModuleModel = &getModel('module');
+		$config = $oModuleModel->getModuleConfig('join_extend');
+		if (!$config)
+		{
+			$config = new stdClass();
+		}
+
+
 		return clone($config);
 	}
 

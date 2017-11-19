@@ -1,92 +1,94 @@
-<!--#include("header.html")-->
+<include target="header.html" />
 <!--@if (!$is_update_table)-->
 <h4 class="xeAdmin">{$lang->admin_request_update_table}</h4>
 <div class="infoText">{$lang->about_update_table}</div>
 
 <div class="infoText" id="pre_update_table">
-<form action="./" method="get" onsubmit="return procFilter(this, update_table)">
-    <span class="button red"><input type="submit" value="{$lang->update_table}" /></span>
-</form>
+	<form action="./" method="get" onsubmit="return procFilter(this, update_table)">
+		<span class="button red"><input type="submit" value="{$lang->update_table}" /></span>
+	</form>
 </div>
 
 <div class="infoText" id="ing_update_table" style="display: none;">
-<form action="./" method="get" onsubmit="return procFilter(this, update_table2)" id="next_form">
-    <input type="hidden" name="start_idx" id="start_idx" value="" />
-    <input type="hidden" name="count" id="count" value="" />
-    Progress :
-    <div style="width: 200px; height: 15px; border: 1px silver solid; display: inline-block; vertical-align: middle">
-        <div id="percent" style="width:200px; text-align: center; position:absolute;">0%</div>
-        <div id="progress_bar" style="background: blue; height: 15px;"></div>
-    </div>
-</form>
+	<form action="./" method="get" onsubmit="return procFilter(this, update_table2)" id="next_form">
+		<input type="hidden" name="start_idx" id="start_idx" value="" />
+		<input type="hidden" name="count" id="count" value="" />
+		Progress :
+		<div style="width: 200px; height: 15px; border: 1px silver solid; display: inline-block; vertical-align: middle">
+			<div id="percent" style="width:200px; text-align: center; position:absolute;">0%</div>
+			<div id="progress_bar" style="background: blue; height: 15px;"></div>
+		</div>
+	</form>
 </div>
 
 <!--@end-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
-<input type="hidden" name="config_type" value="index" />
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminInsertConfig" />
+	<input type="hidden" name="config_type" value="index" />
 	<section class="section">
 		<h1>{$lang->subtitle_primary}</h1>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label" for="use_join_extend">{$lang->use_join_extend}</label>
 			<div class="x_controls">
-            <select name="use_join_extend" is="use_join_extend">
-                <option value="N"<!--@if($config->use_join_extend=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_join_extend=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
-            </select>
-                
-			<a href="#use_join_extend_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="use_join_extend_help" class="x_help-block" hidden>{$lang->about_use_join_extend}</p>
+				<select name="use_join_extend" is="use_join_extend">
+					<option value="N"<!--@if($config->use_join_extend=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+					<option value="Y"<!--@if($config->use_join_extend=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+				</select>
+
+				<a href="#use_join_extend_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="use_join_extend_help" class="x_help-block" hidden>{$lang->about_use_join_extend}</p>
 			</div>
 		</div>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->admin_id}</label>
 			<div class="x_controls">
 				<input type="text" name="admin_id" value="{$config->admin_id}" class="inputText w100" />
-                
+
 				<a href="#admin_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="admin_id_help" class="x_help-block" hidden>{$lang->about_admin_id_2}</p>
 			</div>
 		</div>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->skin}</label>
 			<div class="x_controls">
-            <select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
-                <!--@foreach($skin_list as $key=>$val)-->
-                <option value="{$key}" <!--@if($config->skin==$key ||(!$config->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-                
-			<a href="#skin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="skin_help" class="x_help-block" hidden>{$lang->about_skin}</p>
+				<select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
+					<!--@foreach($skin_list as $key=>$val)-->
+					<option value="{$key}" <!--@if($config->skin==$key ||(!$config->skin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
+					<!--@end-->
+				</select>
+
+				<a href="#skin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="skin_help" class="x_help-block" hidden>{$lang->about_skin}</p>
 			</div>
 		</div>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->colorset}</label>
 			<div class="x_controls">
 				<div style="clear:both;">
-				<div id="skin_colorset"></div>
+					<div id="skin_colorset"></div>
 				</div>
 			</div>
 		</div>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->mskin}1</label>
 			<div class="x_controls">
-            <select name="mskin" onchange="doGetMSkinColorset(this.options[this.selectedIndex].value);return false;">
-                <!--@foreach($mskin_list as $key=>$val)-->
-                <option value="{$key}" <!--@if($config->mskin==$key ||(!$config->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
-                <!--@end-->
-            </select>
-                
-			<a href="#mskin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="mskin_help" class="x_help-block" hidden>{$lang->about_skin}</p>
+				<select name="mskin" onchange="doGetMSkinColorset(this.options[this.selectedIndex].value);return false;">
+					<!--@foreach($mskin_list as $key=>$val)-->
+					<option value="{$key}" <!--@if($config->mskin==$key ||(!$config->mskin && $key=='default'))-->selected="selected"<!--@end-->>{$val->title}</option>
+					<!--@end-->
+				</select>
+
+				<a href="#mskin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="mskin_help" class="x_help-block" hidden>{$lang->about_skin}</p>
 			</div>
 		</div>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->mcolorset}1</label>
 			<div class="x_controls">
 				<div style="clear:both;">
-				<div id="mskin_colorset"></div>
+					<div id="mskin_colorset"></div>
 				</div>
 			</div>
 		</div>
@@ -99,6 +101,10 @@
 </form>
 
 <script type="text/javascript">
-    xAddEventListener(window,'load', function() { doGetSkinColorset("{$config->skin}"); });
-    xAddEventListener(window,'load', function() { doGetMSkinColorset("{$config->mskin}"); });
+	xAddEventListener(window, 'load', function () {
+		doGetSkinColorset("{$config->skin}");
+	});
+	xAddEventListener(window, 'load', function () {
+		doGetMSkinColorset("{$config->mskin}");
+	});
 </script>
