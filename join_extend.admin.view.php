@@ -125,7 +125,7 @@ class join_extendAdminView extends join_extend
 
 		// 에디터 공통 설정
 		$oEditorModel = &getModel('editor');
-
+		// TODO: javascript error when load two editor.
 		$option->allow_fileupload = false;
 		$option->enable_autosave = false;
 		$option->enable_default_component = true;
@@ -167,12 +167,12 @@ class join_extendAdminView extends join_extend
 	 **/
 	function dispJoin_extendAdminInputConfig()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
 		// 가입폼의 추가 변수 가져오기
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$extend_list = $oMemberModel->getJoinFormList();
 		if (!count($extend_list))
 		{
@@ -244,12 +244,13 @@ class join_extendAdminView extends join_extend
 	 **/
 	function dispJoin_extendAdminInvitationConfig()
 	{
-		$oMemberModel = &getModel('member');
-		$oJoinExtendModel = &getModel('join_extend');
+		$oMemberModel = getModel('member');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
 		// 초대장 목록
+		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->invitation_code = Context::get('code');
 		$args->joindate = Context::get('joindate');
@@ -299,12 +300,13 @@ class join_extendAdminView extends join_extend
 	 **/
 	function dispJoin_extendAdminCouponConfig()
 	{
-		$oMemberModel = &getModel('member');
-		$oJoinExtendModel = &getModel('join_extend');
+		$oMemberModel = getModel('member');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
 		// 쿠폰 목록
+		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->invitation_code = Context::get('code');
 		$args->joindate = Context::get('joindate');

@@ -5,27 +5,29 @@
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
-<input type="hidden" name="config_type" value="coupon_config" />
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminInsertConfig" />
+	<input type="hidden" name="config_act" value="dispJoin_extendAdminCouponConfig" />
 	<section class="section">
 		<h1>{$lang->subtitle_primary}</h1>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label" for="use_coupon">{$lang->use_coupon}</label>
 			<div class="x_controls">
-            <select name="use_coupon" id="use_coupon">
-                <option value="N"<!--@if($config->use_coupon=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_coupon=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
-            </select>
-                
-			<a href="#use_coupon_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="use_coupon_help" class="x_help-block" hidden>{$lang->about_use_coupon}</p>
+				<select name="use_coupon" id="use_coupon">
+					<option value="N"<!--@if($config->use_coupon=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+					<option value="Y"<!--@if($config->use_coupon=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+				</select>
+
+				<a href="#use_coupon_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="use_coupon_help" class="x_help-block" hidden>{$lang->about_use_coupon}</p>
 			</div>
 		</div>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label" for="coupon_var_name">{$lang->coupon_var_name}</label>
 			<div class="x_controls">
 				<input type="text" name="coupon_var_name" value="{$config->coupon_var_name}" class="inputTypeText w40" />
-                
+
 				<a href="#coupon_var_name_number_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="coupon_var_name_number_help" class="x_help-block" hidden>{$lang->about_coupon_var_name}</p>
 			</div>
@@ -41,18 +43,19 @@
 <form action="./" method="post" onsubmit="return procFilter(this, generate_coupon)" class="x_form-horizontal">
 	<section class="section">
 		<h1>{$lang->generate_coupon}</h1>
-        <div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label" for="generate_coupon">{$lang->generate_coupon}</label>
 			<div class="x_controls">
 				<input type="type=" name="count" class="inputTypeText w40" /> {$lang->unit_number},
-				
-				<label style="display: inline-block;">{$lang->receive_point} : <input type="type=" name="point" class="inputTypeText w40" maxlength="10" /></label>,
-				
+
+				<label style="display: inline-block;">{$lang->receive_point} :
+					<input type="type=" name="point" class="inputTypeText w40" maxlength="10" /></label>,
+
 				<div style="clear: both;"></div>
 				<label style="display: inline-block;" for="validate_input">{$lang->validdate} : </label>
 				<input type="hidden" name="validdate" id="date_validdate" value="" />
 				<input id="validate_input" type="text" value="" readonly="readonly" class="inputDate inputTypeText" />
-                
+
 				<a href="#generate_coupon_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="generate_coupon_help" class="x_help-block" hidden>{$lang->about_generate_coupon}</p>
 			</div>
@@ -67,46 +70,66 @@
 
 <!-- 삭제를 위한 임시 form -->
 <form id="fo_coupon" action="./" method="get">
-    <input type="hidden" name="coupon_srls" value="" />
+	<input type="hidden" name="coupon_srls" value="" />
 </form>
 
 <form action="./" method="get" id="coupon_list">
-    <input type="hidden" name="module" value="admin" />
-    <input type="hidden" name="act" value="{$act}" />
-    <select name="joindate">
-        <option value="">{$lang->my_view_all}</option>
-        <option value="-" <!--@if($joindate=="-")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
-    </select>
-    <button type="submit" class="x_btn" style="margin-top: -10px;">{$lang->view}</button>
-    <table class="x_table x_table-striped x_table-hover" cellspacing="0">
-    <tr>
-        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
-        <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div>{$lang->coupon_code}</div></th>
-        <th scope="col"><div>{$lang->receive_point}</div></th>
-        <th scope="col"><div>{$lang->regdate}</div></th>
-        <th scope="col"><div>{$lang->validdate}</div></th>
-        <th scope="col"><div>{$lang->invitation_join_id}</div></th>
-        <th scope="col"><div>{$lang->invitation_joindate}</div></th>
-        <th scope="col"><div>&nbsp;</div></th>
-    </tr>
-    <!--@foreach($coupon_list as $no => $val)-->
-    <tr>
-        <td class="center"><input type="checkbox" name="cart" value="{$val->coupon_srl}" /></td>
-        <td>{$no}</td>
-        <td style="font-family: monospace">{$val->code}</td>
-        <td>{$val->point}</td>
-        <td>{zdate($val->regdate,"Y-m-d")}</td>
-        <td>{zdate($val->validdate,"Y-m-d")}</td>
-        <td>{$val->join_id}</td>
-        <td>{zdate($val->joindate,"Y-m-d")}</td>
-        <td><a href="#" onclick="doDeleteCoupon('{$val->coupon_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="x_btn"><span>{$lang->cmd_delete}</span></a></td>
-    </tr>
-    <!--@end-->
-    </table>
+	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="act" value="{$act}" />
+	<select name="joindate">
+		<option value="">{$lang->my_view_all}</option>
+		<option value="-" <!--@if($joindate=="-")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
+	</select>
+	<button type="submit" class="x_btn" style="margin-top: -10px;">{$lang->view}</button>
+	<table class="x_table x_table-striped x_table-hover" cellspacing="0">
+		<tr>
+			<th scope="col">
+				<div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div>
+			</th>
+			<th scope="col">
+				<div>{$lang->no}</div>
+			</th>
+			<th scope="col">
+				<div>{$lang->coupon_code}</div>
+			</th>
+			<th scope="col">
+				<div>{$lang->receive_point}</div>
+			</th>
+			<th scope="col">
+				<div>{$lang->regdate}</div>
+			</th>
+			<th scope="col">
+				<div>{$lang->validdate}</div>
+			</th>
+			<th scope="col">
+				<div>{$lang->invitation_join_id}</div>
+			</th>
+			<th scope="col">
+				<div>{$lang->invitation_joindate}</div>
+			</th>
+			<th scope="col">
+				<div>&nbsp;</div>
+			</th>
+		</tr>
+		<!--@foreach($coupon_list as $no => $val)-->
+		<tr>
+			<td class="center"><input type="checkbox" name="cart" value="{$val->coupon_srl}" /></td>
+			<td>{$no}</td>
+			<td style="font-family: monospace">{$val->code}</td>
+			<td>{$val->point}</td>
+			<td>{zdate($val->regdate,"Y-m-d")}</td>
+			<td>{zdate($val->validdate,"Y-m-d")}</td>
+			<td>{$val->join_id}</td>
+			<td>{zdate($val->joindate,"Y-m-d")}</td>
+			<td>
+				<a href="#" onclick="doDeleteCoupon('{$val->coupon_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="x_btn"><span>{$lang->cmd_delete}</span></a>
+			</td>
+		</tr>
+		<!--@end-->
+	</table>
 </form>
 <div class="fl">
-    <a href="#" onclick="doDeleteCoupons();return false;" class="x_btn"><span>{$lang->cmd_delete}</span></a>
+	<a href="#" onclick="doDeleteCoupons();return false;" class="x_btn"><span>{$lang->cmd_delete}</span></a>
 </div>
 
 <!-- 페이지 네비게이션 -->
@@ -115,46 +138,51 @@
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<ul>
-		<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+		<li class="x_disabled" |cond="!$page || $page == 1">
+			<a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
 		<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
-		{@$isGoTo = true}
-		<li>
-			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
-			<span cond="$isGoTo" id="goTo" class="x_input-append">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
 			</span>
-		</li>
+			</li>
 		</block>
 
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		{@$last_page = $page_no}
-		<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+		<li class="x_active" |cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
 		<!--@end-->
 
 		<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
-		{@$isGoTo = true}
-		<li>
-			<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
-			<span cond="$isGoTo" id="goTo" class="x_input-append">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
 				<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 				<button type="submit" class="x_add-on">Go</button>
 			</span>
-		</li>
+			</li>
 		</block>
-		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		<li class="x_disabled" |cond="$page == $page_navigation->last_page">
+			<a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a>
+		</li>
 	</ul>
 </form>
 
 <script type="text/javascript">
-(function($){
-    $(function(){
-        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', onSelect:function(){
+	(function ($) {
+		$(function () {
+			var option = {
+				changeMonth: true, changeYear: true, gotoCurrent: false, yearRange: '-100:+10', onSelect: function () {
 
-            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
-        };
-        $.extend(option,$.datepicker.regional['{$lang_type}']);
-        $(".inputDate").datepicker(option);
-    });
-})(jQuery);
+					$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g, ""))
+				}
+			};
+			$.extend(option, $.datepicker.regional['{$lang_type}']);
+			$(".inputDate").datepicker(option);
+		});
+	})(jQuery);
 </script>

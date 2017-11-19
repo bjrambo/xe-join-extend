@@ -1,8 +1,10 @@
 <!--#include("header.html")-->
 <!--%import("filter/insert_editor.xml")-->
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_config)" class="x_form-horizontal">
-<input type="hidden" name="config_type" value="after_config" />
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminInsertConfig" />
+	<input type="hidden" name="config_act" value="dispJoin_extendAdminAfterConfig" />
 	<section class="section">
 		<h1>{$lang->subtitle_primary}</h1>
         <div class="x_control-group">

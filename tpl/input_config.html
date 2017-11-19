@@ -2,8 +2,10 @@
 
 <div class="infoText">{nl2br($lang->about_input_config)}</div>
 
-<form action="./" method="post" onsubmit="return doCheckInputConfig(this)" class="x_form-horizontal">
-<input type="hidden" name="config_type" value="input_config" />
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminInsertConfig" />
+	<input type="hidden" name="config_act" value="dispJoin_extendAdminInputConfig" />
 	<table class="x_table x_table-striped x_table-hover dsTg">
 		<thead>
 			<tr>

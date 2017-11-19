@@ -46,7 +46,7 @@ class join_extendAdminController extends join_extend
 		}
 
 		// TODO $config_act to display action name.
-		if ($config_act == "after_config")
+		if ($config_act == "dispJoin_extendAdminAfterConfig")
 		{
 			if (!$obj->welcome_title)
 			{
@@ -61,14 +61,14 @@ class join_extendAdminController extends join_extend
 				$obj->notify_admin_collect_number = '';
 			}
 		}
-		if ($config_act == "coupon_config")
+		if ($config_act == "dispJoin_extendAdminCouponConfig")
 		{
 			if (!$obj->coupon_var_name)
 			{
 				$obj->coupon_var_name = '';
 			}
 		}
-		if ($config_act == "extend_var_config")
+		if ($config_act == "dispJoin_extendAdminExtendVarConfig")
 		{
 			if (!$obj->sex_var_name)
 			{
@@ -99,14 +99,14 @@ class join_extendAdminController extends join_extend
 				$obj->joinid_point = '';
 			}
 		}
-		if ($config_act == "index")
+		if ($config_act == "dispJoin_extendAdminIndex")
 		{
 			if (!$obj->admin_id)
 			{
 				$obj->admin_id = '';
 			}
 		}
-		if ($config_act == "input_config")
+		if ($config_act == "dispJoin_extendAdminInputConfig")
 		{
 			$config_list = get_object_vars($obj);
 			if (count($config_list))
@@ -128,7 +128,7 @@ class join_extendAdminController extends join_extend
 				}
 			}
 		}
-		if ($config_act == "restrictions_config")
+		if ($config_act == "dispJoin_extendAdminRestrictionsConfig")
 		{
 			if (!$obj->age_restrictions)
 			{
