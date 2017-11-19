@@ -180,46 +180,6 @@ class join_extendAdminController extends join_extend
 	}
 
 	/**
-	 * @brief 에디터 설정 저장
-	 **/
-	function procJoin_extendAdminInsertEditor()
-	{
-		$type = Context::get('type');
-		$content = new stdClass();
-		switch ($type)
-		{
-			case 'agreement':
-				$content->agreement = Context::get('agreement');
-				break;
-			case 'private_agreement':
-				$content->private_agreement = Context::get('private_agreement');
-				break;
-			case 'private_gathering_agreement':
-				$content->private_gathering_agreement = Context::get('private_gathering_agreement');
-				break;
-			case 'welcome':
-				$content->welcome = Context::get('welcome');
-				break;
-			case 'welcome_email':
-				$content->welcome_email = Context::get('welcome_email');
-				break;
-		}
-
-		// module Controller 객체 생성하여 입력
-		$oModuleController = getController('module');
-		$output = $oModuleController->insertModuleConfig('join_extend_editor_' . $type, $content);
-
-		if (Context::get('success_return_url'))
-		{
-			$this->setRedirectUrl(Context::get('success_return_url'));
-		}
-		else
-		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminAgreeConfig'));
-		}
-	}
-
-	/**
 	 * @brief 주민등록번호를 새 테이블로 이동
 	 **/
 	function procJoin_extendAdminUpdateTable()
