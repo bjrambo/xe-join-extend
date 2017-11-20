@@ -34,9 +34,6 @@ class join_extend extends ModuleObject
 		return new Object();
 	}
 
-	/**
-	 * @brief 설치가 이상이 없는지 체크하는 method
-	 **/
 	function checkUpdate()
 	{
 		/** @var $oDB DBMysqli */
@@ -59,20 +56,13 @@ class join_extend extends ModuleObject
 		return false;
 	}
 
-	/**
-	 * @brief 업데이트 실행
-	 **/
 	function moduleUpdate()
 	{
 		/** @var $oDB DBMysqli */
 		$oDB = &DB::getInstance();
 		$oModuleModel = &getModel('module');
 		$oModuleController = &getController('module');
-		$oJoinExtendModel = &getModel('join_extend');
-		/** @var $oJoinExtendAdminController join_extendAdminController */
-		$oJoinExtendAdminController = getAdminController('join_extend');
 
-		// 트리거 추가
 		foreach (self::$triggers as $trigger)
 		{
 			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
@@ -81,7 +71,6 @@ class join_extend extends ModuleObject
 			}
 		}
 
-		// 초대장에 유효기간 추가 (2009-01-25)
 		if (!$oDB->isColumnExists("join_extend_invitation", "validdate"))
 		{
 			$oDB->addColumn("join_extend_invitation", "validdate", "date");
@@ -90,9 +79,6 @@ class join_extend extends ModuleObject
 		return new Object(0, 'success_updated');
 	}
 
-	/**
-	 * @brief 캐시 파일 재생성
-	 **/
 	function recompileCache()
 	{
 	}
