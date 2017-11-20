@@ -42,7 +42,6 @@ class join_extend extends ModuleObject
 		/** @var $oDB DBMysqli */
 		$oDB = &DB::getInstance();
 		$oModuleModel = &getModel('module');
-		$oJoinExtendModel = &getModel('join_extend');
 
 		foreach (self::$triggers as $trigger)
 		{
@@ -50,12 +49,6 @@ class join_extend extends ModuleObject
 			{
 				return true;
 			}
-		}
-
-		// TODO : check again
-		if (!$oJoinExtendModel->isUpdateEditor())
-		{
-			return true;
 		}
 
 		if (!$oDB->isColumnExists("join_extend_invitation", "validdate"))
@@ -85,16 +78,6 @@ class join_extend extends ModuleObject
 			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
-
-		// TODO : check again
-		if (!$oJoinExtendModel->isUpdateEditor())
-		{
-			$output = $oJoinExtendAdminController->updateEditor();
-			if(!$output->toBool())
-			{
-				return $output;
 			}
 		}
 

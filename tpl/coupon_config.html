@@ -1,5 +1,4 @@
 <!--#include("header.html")-->
-<!--%import("filter/generate_coupon.xml")-->
 <!--%import("filter/delete_coupon.xml")-->
 
 <!--// datepicker javascript plugin load -->
@@ -40,7 +39,9 @@
 	</div>
 </form>
 
-<form action="./" method="post" onsubmit="return procFilter(this, generate_coupon)" class="x_form-horizontal">
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminGenerateCoupon" />
 	<section class="section">
 		<h1>{$lang->generate_coupon}</h1>
 		<div class="x_control-group">

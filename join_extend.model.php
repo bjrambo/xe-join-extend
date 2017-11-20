@@ -472,36 +472,6 @@ class join_extendModel extends join_extend
 	}
 
 	/**
-	 * @brief 주민등록번호 테이블 이전 되었는지 확인
-	 **/
-	function isUpdateTable()
-	{
-		$oDB = &DB::getInstance();
-
-		if ($oDB->isColumnExists("member", "jumin"))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * @brief 에디터 내용 이전 되었는지 확인
-	 **/
-	function isUpdateEditor()
-	{
-		$config = $this->getConfig();
-
-		if (isset($config->agreement) || isset($config->private_agreement) || isset($config->private_gathering_agreement) || isset($config->welcome))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * @brief 입력항목 필수 표시, 길이 제한 메시지
 	 **/
 	function procRequiredLength()

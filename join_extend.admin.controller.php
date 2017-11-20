@@ -1,8 +1,8 @@
 <?php
 /**
  * @class  join_extendAdminController
- * @author 난다날아 (sinsy200@gmail.com)
- * @brief  member_join_extend모듈의 admin controller class
+ * @author @sinsy200 (sinsy200@gmail.com)
+ * @brief  member_join_extend module's admin controller class
  **/
 
 class join_extendAdminController extends join_extend
@@ -45,7 +45,6 @@ class join_extendAdminController extends join_extend
 			}
 		}
 
-		// TODO $config_act to display action name.
 		if ($config_act == "dispJoin_extendAdminAfterConfig")
 		{
 			if (!$obj->welcome_title)
@@ -172,84 +171,30 @@ class join_extendAdminController extends join_extend
 			{
 				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', $config_act));
 			}
-			else
-			{
-				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminIndex'));
-			}
 		}
 	}
 
-	/**
-	 * @brief 에디터 이전
-	 **/
-	function updateEditor()
-	{
-		// 기존 설정을 가져온다.
-		$oJoinExtendModel = &getModel('join_extend');
-		$config = $oJoinExtendModel->getConfig();
-
-		// 에디터는 별도 저장
-		$oModuleController = &getController('module');
-		$output = $oModuleController->insertModuleConfig('join_extend_editor_agreement', $config->agreement);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-		$output = $oModuleController->insertModuleConfig('join_extend_editor_private_agreement', $config->private_agreement);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-		$output = $oModuleController->insertModuleConfig('join_extend_editor_private_gathering_agreement', $config->private_gathering_agreement);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-		$output = $oModuleController->insertModuleConfig('join_extend_editor_welcome', $config->welcome);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-
-		// 기존 설정에서 에디터 내용은 삭제
-		unset($config->agreement);
-		unset($config->private_agreement);
-		unset($config->private_gathering_agreement);
-		unset($config->welcome);
-		$output = $oModuleController->insertModuleConfig('join_extend', $config);
-
-		return $output;
-	}
-
-	/**
-	 * @brief 초대장 생성
-	 **/
 	function procJoin_extendAdminGenerateInvitation()
 	{
-		// 개수 확인
-		$count = intVal(Context::get('count'));
+		/** @var  $oJoinExtendAdminModel join_extendAdminModel */
+		$oJoinExtendAdminModel = getAdminModel('join_extend');
+		$count = intval(Context::get('count'));
 		if ($count < 1 || $count > 100)
 		{
-			$this->SetError(1);
-			$this->SetMessage('msg_invitation_incorrect_count');
-			return;
+			return new Object(-1, 'msg_invitation_incorrect_count');
 		}
 
-		// 유효기간 확인
-		$validdate = Context::get('validdate');
-		if ($validdate && $validdate < date("Ymd"))
+		$validDate = Context::get('validdate');
+		if (!$oJoinExtendAdminModel->checkedValidDate($validDate))
 		{
-			$this->SetError(1);
-			$this->SetMessage('msg_validdate_past');
-			return;
+			return new Object(-1, 'msg_validdate_past');
 		}
 
-		// 초대장 생성
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		for ($i = 0; $i < $count; $i++)
 		{
-
+			$args = new stdClass();
 			while (1)
 			{
 				$args->invitation_code = strtoupper(md5(microtime() + $i));
@@ -267,7 +212,7 @@ class join_extendAdminController extends join_extend
 
 			$args->invitation_srl = getNextSequence();
 			$args->own_member_srl = 0;
-			$args->validdate = $validdate;
+			$args->validdate = $validDate;
 			$output = $oDB->executeQuery('join_extend.insertInvitation', $args);
 			if (!$output->toBool())
 			{
@@ -276,13 +221,22 @@ class join_extendAdminController extends join_extend
 			}
 		}
 		$oDB->commit();
+
+		$this->setMessage('success_update');
+
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminInvitationConfig'));
+		}
 	}
 
-	/**
-	 * @brief 초대장 삭제
-	 **/
 	function procJoin_extendAdminDeleteInvitation()
 	{
+		$args = new stdClass();
 		$args->invitation_srls = Context::get('invitation_srls');
 		if (!$args->invitation_srls)
 		{
@@ -295,47 +249,37 @@ class join_extendAdminController extends join_extend
 			return $output;
 		}
 
-		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminInvitationConfig'));
 	}
 
-	/**
-	 * @brief 쿠폰 생성
-	 **/
 	function procJoin_extendAdminGenerateCoupon()
 	{
-		// 개수 확인
-		$count = intVal(Context::get('count'));
+		/** @var $oJoinExtendAdminModel join_extendAdminModel */
+		$oJoinExtendAdminModel = getAdminModel('join_extend');
+
+		$count = intval(Context::get('count'));
 		if ($count < 1 || $count > 100)
 		{
-			$this->SetError(1);
-			$this->SetMessage('msg_invitation_incorrect_count');
-			return;
+			return new Object(-1, 'msg_invitation_incorrect_count');
 		}
 
-		// 포인트 확인
 		$point = Context::get('point');
 		if (!$point || !is_numeric($point) || intVal($point) < 0)
 		{
-			$this->SetError(1);
-			$this->SetMessage('msg_invalid_number');
-			return;
+			return new Object(-1, 'msg_invalid_number');
 		}
 
-		// 유효기간 확인
-		$validdate = Context::get('validdate');
-		if ($validdate && $validdate < date("Ymd"))
+		$validDate = Context::get('validdate');
+		if (!$oJoinExtendAdminModel->checkedValidDate($validDate))
 		{
-			$this->SetError(1);
-			$this->SetMessage('msg_validdate_past');
-			return;
+			return new Object(-1, 'msg_validdate_past');
 		}
 
-		// 쿠폰 생성
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		for ($i = 0; $i < $count; $i++)
 		{
-
+			$args = new stdClass();
 			while (1)
 			{
 				$args->coupon_code = strtoupper(md5(microtime() + $i));
@@ -353,7 +297,7 @@ class join_extendAdminController extends join_extend
 
 			$args->coupon_srl = getNextSequence();
 			$args->own_member_srl = 0;
-			$args->validdate = $validdate;
+			$args->validdate = $validDate;
 			$args->point = $point;
 			$output = $oDB->executeQuery('join_extend.insertCoupon', $args);
 			if (!$output->toBool())
@@ -362,14 +306,22 @@ class join_extendAdminController extends join_extend
 				return $output;
 			}
 		}
+
 		$oDB->commit();
+
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminCouponConfig'));
+		}
 	}
 
-	/**
-	 * @brief 쿠폰 삭제
-	 **/
 	function procJoin_extendAdminDeleteCoupon()
 	{
+		$args = new stdClass();
 		$args->coupon_srls = Context::get('coupon_srls');
 		if (!$args->coupon_srls)
 		{
@@ -382,8 +334,6 @@ class join_extendAdminController extends join_extend
 			return $output;
 		}
 
-		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispJoin_extendAdminCouponConfig'));
 	}
 }
-
-?>

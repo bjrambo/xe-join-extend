@@ -1,33 +1,27 @@
 <?php
 /**
  * @class  join_extendAdminView
- * @author 난다날아 (sinsy200@gmail.com)
- * @brief  join_extend모듈의 admin view class
+ * @author sinsy200 (sinsy200@gmail.com)
+ * @brief  join_extend module's admin view class
  **/
 
 class join_extendAdminView extends join_extend
 {
-
-	/**
-	 * @brief 초기화
-	 **/
 	function init()
 	{
 	}
 
 	/**
-	 * @brief 모듈 설정 화면
+	 * @brief Display to module index.
 	 **/
 	function dispJoin_extendAdminIndex()
 	{
 		/** @var $oJoinExtendModel join_extendModel */
 		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
-		$is_update_table = $oJoinExtendModel->isUpdateTable();
 		Context::set('config', $config);
 		Context::set('is_update_table', $is_update_table);
 
-		// 스킨 목록을 구해옴
 		$oModuleModel = &getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list', $skin_list);
@@ -35,13 +29,12 @@ class join_extendAdminView extends join_extend
 		$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
 		Context::set('mskin_list', $mskin_list);
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('index');
 	}
 
 	/**
-	 * @brief 약관 설정 화면
+	 * @brief Display to agree config.
 	 **/
 	function dispJoin_extendAdminAgreeConfig()
 	{
@@ -49,7 +42,6 @@ class join_extendAdminView extends join_extend
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 에디터 공통 설정
 		$oEditorModel = &getModel('editor');
 
 		$option = new stdClass();
@@ -65,65 +57,52 @@ class join_extendAdminView extends join_extend
 		$option->height = 200;
 		$option->editor_toolbar = 'default';
 		$option->editor_toolbar_hide = 'N';
-		// 이용약관 에디터
 		$option->content_key_name = 'agreement';
+
+		// agreement editor
 		$editor_agreement = $oEditorModel->getEditor(0, $option);
 		Context::set('editor_agreement', $editor_agreement);
 
-		// 개인정보취급방침 에디터
+		// private_agreement editor
 		$option->content_key_name = 'private_agreement';
 		$editor_private_agreement = $oEditorModel->getEditor(0, $option);
 		Context::set('editor_private_agreement', $editor_private_agreement);
 
-		// 개인정보 수집 및 이용 에디터
+		// private_gathering_agreement editor
 		$option->content_key_name = 'private_gathering_agreement';
 		$editor_private_gathering_agreement = $oEditorModel->getEditor(0, $option);
 		Context::set('editor_private_gathering_agreement', $editor_private_gathering_agreement);
 
-
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('agree_config');
 	}
 
-	/**
-	 * @brief 확장변수 연동 설정 화면
-	 **/
 	function dispJoin_extendAdminExtendVarConfig()
 	{
 		$oJoinExtendModel = &getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('extend_var_config');
 	}
 
-	/**
-	 * @brief 가입 제한 설정 화면
-	 **/
 	function dispJoin_extendAdminRestrictionsConfig()
 	{
 		$oJoinExtendModel = &getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('restrictions_config');
 	}
 
-	/**
-	 * @brief 가입후 처리 설정 화면
-	 **/
 	function dispJoin_extendAdminAfterConfig()
 	{
 		$oJoinExtendModel = &getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 에디터 공통 설정
 		$oEditorModel = &getModel('editor');
 		// TODO: javascript error when load two editor.
 		$option->allow_fileupload = false;
@@ -133,45 +112,34 @@ class join_extendAdminView extends join_extend
 		$option->resizable = true;
 		$option->height = 300;
 
-		// 가입 환영 쪽지 에디터
 		$option->content_key_name = 'welcome';
 		$editor_welcome = $oEditorModel->getEditor(0, $option);
 		Context::set('editor_welcome', $editor_welcome);
 
-		// 가입 환영 메일 에디터
 		$option->content_key_name = 'welcome_email';
 		$editor_welcome_email = $oEditorModel->getEditor(0, $option);
 		Context::set('editor_welcome_email', $editor_welcome_email);
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('after_config');
 	}
 
-	/**
-	 * @brief 주민등록번호 설정 화면
-	 **/
 	function dispJoin_extendAdminJuminConfig()
 	{
 		$oJoinExtendModel = &getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('jumin_config');
 	}
 
-	/**
-	 * @brief 정보입력 설정 화면
-	 **/
 	function dispJoin_extendAdminInputConfig()
 	{
 		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 가입폼의 추가 변수 가져오기
 		$oMemberModel = getModel('member');
 		$extend_list = $oMemberModel->getJoinFormList();
 		if (!count($extend_list))
@@ -180,23 +148,16 @@ class join_extendAdminView extends join_extend
 		}
 		Context::set('extend_list', $extend_list);
 
-		// 안내 메시지 언어팩
 		$msg_user_id_length = Context::getLang('msg_user_id_length');
 		$msg_user_name_length = Context::getLang('msg_user_name_length');
 		$msg_nick_name_length = Context::getLang('msg_nick_name_length');
 		$msg_email_length = Context::getLang('msg_email_length');
 		Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_user_id_length="%s"; var msg_user_name_length="%s"; var msg_nick_name_length="%s"; var msg_email_length="%s"; </script>', $msg_user_id_length, $msg_user_name_length, $msg_nick_name_length, $msg_email_length));
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('input_config');
 	}
 
-
-	/**
-	 * @brief 특정 스킨에 속한 컬러셋 목록을 return
-	 * @TODO: set to type in just use this method. It's will delete getJoin_extendAdminMColorset function.
-	 **/
 	function getJoin_extendAdminColorset()
 	{
 		$skin = Context::get('skin');
@@ -239,9 +200,6 @@ class join_extendAdminView extends join_extend
 		$this->add('tpl', $tpl);
 	}
 
-	/**
-	 * @brief 초대장 설정
-	 **/
 	function dispJoin_extendAdminInvitationConfig()
 	{
 		$oMemberModel = getModel('member');
@@ -249,7 +207,6 @@ class join_extendAdminView extends join_extend
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 초대장 목록
 		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->invitation_code = Context::get('code');
@@ -290,14 +247,11 @@ class join_extendAdminView extends join_extend
 		Context::set('page', $output->page);
 		Context::set('page_navigation', $output->page_navigation);
 
-		// 템플릿 지정
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('invitation_config');
 	}
 
-	/**
-	 * @brief 가입쿠폰 설정
-	 **/
+	//TODO: get to member signup config for member extra vars.
 	function dispJoin_extendAdminCouponConfig()
 	{
 		$oMemberModel = getModel('member');
@@ -305,7 +259,6 @@ class join_extendAdminView extends join_extend
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		// 쿠폰 목록
 		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->invitation_code = Context::get('code');
@@ -351,5 +304,3 @@ class join_extendAdminView extends join_extend
 		$this->setTemplateFile('coupon_config');
 	}
 }
-
-?>
