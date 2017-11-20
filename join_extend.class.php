@@ -39,6 +39,7 @@ class join_extend extends ModuleObject
 	 **/
 	function checkUpdate()
 	{
+		/** @var $oDB DBMysqli */
 		$oDB = &DB::getInstance();
 		$oModuleModel = &getModel('module');
 		$oJoinExtendModel = &getModel('join_extend');

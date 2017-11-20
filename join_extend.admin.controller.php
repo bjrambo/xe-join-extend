@@ -180,47 +180,6 @@ class join_extendAdminController extends join_extend
 	}
 
 	/**
-	 * @brief 주민등록번호를 새 테이블로 이동
-	 **/
-	function procJoin_extendAdminUpdateTable()
-	{
-		$oDB = &DB::getInstance();
-		$count = Context::get('count');
-		$start_idx = Context::get('start_idx');
-
-		$args->order_type = 'asc';
-		$args->list_count = $count;
-		$args->page = $start_idx;
-		$output = $oDB->executeQuery('join_extend.getOldJumin', $args);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-
-		if ($output->data && count($output->data))
-		{
-			foreach ($output->data as $val)
-			{
-				$output2 = $oDB->executeQuery('join_extend.insertJuminToNewTable', $val);
-				if (!$output2->toBool())
-				{
-					return $output2;
-				}
-			}
-		}
-
-		$percent = $output->page_navigation->cur_page / $output->page_navigation->total_page;
-
-		$this->add('next_idx', intVal($start_idx) + 1);
-		$this->add('percent', $percent);
-		if ($percent == 1)
-		{
-			$oDB->dropColumn('member', 'jumin');
-			$this->setMessage('complete_update_table');
-		}
-	}
-
-	/**
 	 * @brief 에디터 이전
 	 **/
 	function updateEditor()
