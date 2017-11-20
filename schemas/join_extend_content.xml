@@ -1,0 +1,4 @@
+<table name="join_extend_content">
+	<column name="type" type="varchar" size="50" notnull="notnull" primary_key="primary_key"/>
+	<column name="content" type="bigtext" notnull="notnull" />
+</table>

@@ -20,7 +20,8 @@
         <action name="procJoin_extendAdminDeleteInvitation" type="controller"  />
         <action name="procJoin_extendAdminGenerateCoupon" type="controller"  />
         <action name="procJoin_extendAdminDeleteCoupon" type="controller"  />
-        
+	    <action name="procJoin_extendAdminInsertContent" type="controller" />
+
         <action name="procJoin_extendAgree" type="controller"  />
         <action name="procJoin_extendInvitation" type="controller"  />
     </actions>

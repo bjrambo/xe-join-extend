@@ -20,9 +20,8 @@ class join_extendAdminView extends join_extend
 		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
-		Context::set('is_update_table', $is_update_table);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list', $skin_list);
 
@@ -38,15 +37,14 @@ class join_extendAdminView extends join_extend
 	 **/
 	function dispJoin_extendAdminAgreeConfig()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 
 		$option = new stdClass();
 		$option->primary_key_name = 'site_srl';
-
 		$option->allow_html = 'Y';
 		$option->allow_fileupload = false;
 		$option->enable_autosave = false;
@@ -57,9 +55,9 @@ class join_extendAdminView extends join_extend
 		$option->height = 200;
 		$option->editor_toolbar = 'default';
 		$option->editor_toolbar_hide = 'N';
-		$option->content_key_name = 'agreement';
 
 		// agreement editor
+		$option->content_key_name = 'agreement';
 		$editor_agreement = $oEditorModel->getEditor(0, $option);
 		Context::set('editor_agreement', $editor_agreement);
 
@@ -79,7 +77,7 @@ class join_extendAdminView extends join_extend
 
 	function dispJoin_extendAdminExtendVarConfig()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
@@ -89,7 +87,7 @@ class join_extendAdminView extends join_extend
 
 	function dispJoin_extendAdminRestrictionsConfig()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
@@ -99,18 +97,24 @@ class join_extendAdminView extends join_extend
 
 	function dispJoin_extendAdminAfterConfig()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
-		$oEditorModel = &getModel('editor');
+		$oEditorModel = getModel('editor');
 		// TODO: javascript error when load two editor.
+		$option = new stdClass();
+		$option->primary_key_name = 'site_srl';
+		$option->allow_html = 'Y';
 		$option->allow_fileupload = false;
 		$option->enable_autosave = false;
 		$option->enable_default_component = true;
-		$option->enable_component = true;
-		$option->resizable = true;
+		$option->enable_component = false;
+		$option->resizable = false;
+		$option->disable_html = false;
 		$option->height = 300;
+		$option->editor_toolbar = 'default';
+		$option->editor_toolbar_hide = 'N';
 
 		$option->content_key_name = 'welcome';
 		$editor_welcome = $oEditorModel->getEditor(0, $option);

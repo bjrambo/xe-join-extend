@@ -1,0 +1,9 @@
+<query id="insertEditorContent" action="insert">
+	<tables>
+		<table name="join_extend_content" />
+	</tables>
+	<columns>
+		<column name="type" var="type" notnull="notnull" />
+		<column name="content" var="content" notnull="notnull" />
+	</columns>
+</query>

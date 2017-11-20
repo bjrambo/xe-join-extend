@@ -34,6 +34,16 @@ class join_extendModel extends join_extend
 				$config->notify_admin_collect_number = 10;
 			}
 
+			$output = executeQueryArray('join_extend.getContentList');
+			if(!empty($output->data))
+			{
+				foreach ($output->data as $val)
+				{
+					$config->{$val->type} = $val->content;
+				}
+			}
+
+
 			// TODO : we need to change to array?
 			$array_config = get_object_vars($config);
 			if (is_array($array_config))

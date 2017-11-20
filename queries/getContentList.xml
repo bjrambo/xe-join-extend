@@ -1,0 +1,5 @@
+<query id="getContentList" action="select">
+	<tables>
+		<table name="join_extend_content" />
+	</tables>
+</query>

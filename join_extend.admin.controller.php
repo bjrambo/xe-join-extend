@@ -153,6 +153,13 @@ class join_extendAdminController extends join_extend
 			}
 		}
 
+		// delete to old agreement setting.
+		unset($config->agreement);
+		unset($config->private_agreement);
+		unset($config->private_gathering_agreement);
+		unset($config->welcome);
+		unset($config->welcome_email);
+
 		$output = $oModuleController->insertModuleConfig('join_extend', $config);
 		if(!$output->toBool())
 		{
@@ -171,6 +178,41 @@ class join_extendAdminController extends join_extend
 			{
 				$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', $config_act));
 			}
+		}
+	}
+
+	function procJoin_extendAdminInsertContent()
+	{
+		$obj = Context::getRequestVars();
+		$config_act = $obj->config_act;
+		$type = $obj->type;
+
+		$args = new stdClass();
+		$args->type = $type;
+		$args->content = $obj->{$type};
+		$getDataOutput = executeQuery('join_extend.getEditorContent', $args);
+		if($getDataOutput->data->type)
+		{
+			$output = executeQuery('join_extend.updateEditorContent', $args);
+		}
+		else
+		{
+			$output = executeQuery('join_extend.insertEditorContent', $args);
+		}
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('update_success');
+
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', $config_act));
 		}
 	}
 
