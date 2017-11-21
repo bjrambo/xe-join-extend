@@ -105,9 +105,13 @@
 	</div>
 </form>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)" class="x_form-horizontal">
-    <input type="hidden" name="type" value="welcome" />
-    <input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminInsertContent" />
+	<input type="hidden" name="type" value="welcome" />
+	<input type="hidden" name="config_act" value="dispJoin_extendAdminAfterConfig" />
+	<input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
+
 	<section class="section collapsed">
 		<h1>{$lang->welcome}</h1>
 		<div class="x_control-group">
@@ -123,9 +127,12 @@
 	</section>
 </form>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)" class="x_form-horizontal">
-    <input type="hidden" name="type" value="welcome_email" />
-    <input type="hidden" name="welcome_email" value="{htmlspecialchars($config->welcome_email)}" />
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="join_extend" />
+	<input type="hidden" name="act" value="procJoin_extendAdminInsertContent" />
+	<input type="hidden" name="type" value="welcome_email" />
+	<input type="hidden" name="config_act" value="dispJoin_extendAdminAfterConfig" />
+	<input type="hidden" name="welcome_email" value="{htmlspecialchars($config->welcome_email)}" />
 	<section class="section collapsed">
 		<h1>{$lang->welcome_email}</h1>
 		<div class="x_control-group">

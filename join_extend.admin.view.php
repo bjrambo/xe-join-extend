@@ -102,7 +102,6 @@ class join_extendAdminView extends join_extend
 		Context::set('config', $config);
 
 		$oEditorModel = getModel('editor');
-		// TODO: javascript error when load two editor.
 		$option = new stdClass();
 		$option->primary_key_name = 'site_srl';
 		$option->allow_html = 'Y';
