@@ -75,7 +75,8 @@ class join_extend extends ModuleObject
 	{
 		/** @var $oDB DBMysqli */
 		$oDB = &DB::getInstance();
-		$oModuleModel = &getModel('module');
+		/** @var $oModuleModel moduleModel */
+		$oModuleModel = getModel('module');
 		$oModuleController = &getController('module');
 
 		foreach (self::$triggers as $trigger)
@@ -91,120 +92,40 @@ class join_extend extends ModuleObject
 			$oDB->addColumn("join_extend_invitation", "validdate", "date");
 		}
 
-		// TODO foreach to same code.
+		$types = array(
+			'agreement',
+			'private_agreement',
+			'private_gathering_agreement',
+			'welcome',
+			'welcome_email'
+		);
+
 		$isDeleteCache = false;
-		if ($oModuleModel->getModuleConfig('join_extend_editor_agreement'))
+		foreach ($types as $type)
 		{
-			$args = new stdClass();
-			$args->type = 'agreement';
-			$args->content = $oModuleModel->getModuleConfig($args->module);
-			$insertOutput = executeQuery('join_extend.insertEditorContent', $args);
-			if(!$insertOutput->toBool())
+			$editorConfingName = 'join_extend_editor_' . $type;
+			if ($oModuleModel->getModuleConfig($editorConfingName))
 			{
-				return $insertOutput;
-			}
+				$args = new stdClass();
+				$args->type = $type;
+				$args->content = $oModuleModel->getModuleConfig($editorConfingName);
+				$insertOutput = executeQuery('join_extend.insertEditorContent', $args);
+				if(!$insertOutput->toBool())
+				{
+					return $insertOutput;
+				}
 
-			$args->module = 'join_extend_editor_agreement';
-			$args->site_srl = 0;
-			$output = executeQuery('module.deleteModuleConfig', $args);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-			else
-			{
-				$isDeleteCache = true;
-			}
-		}
-		if ($oModuleModel->getModuleConfig('join_extend_editor_private_agreement'))
-		{
-			$args = new stdClass();
-			$args->type = 'private_agreement';
-			$args->content = $oModuleModel->getModuleConfig($args->module);
-			$insertOutput = executeQuery('join_extend.insertEditorContent', $args);
-			if(!$insertOutput->toBool())
-			{
-				return $insertOutput;
-			}
-
-			$args->module = 'join_extend_editor_private_agreement';
-			$args->site_srl = 0;
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-			else
-			{
-				$isDeleteCache = true;
-			}
-		}
-		if ($oModuleModel->getModuleConfig('join_extend_editor_private_gathering_agreement'))
-		{
-			$args = new stdClass();
-			$args->type = 'private_gathering_agreement';
-			$args->content = $oModuleModel->getModuleConfig($args->module);
-			$insertOutput = executeQuery('join_extend.insertEditorContent', $args);
-			if(!$insertOutput->toBool())
-			{
-				return $insertOutput;
-			}
-
-			$args->module = 'join_extend_editor_private_gathering_agreement';
-			$args->site_srl = 0;
-			$output = executeQuery('module.deleteModuleConfig', $args);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-			else
-			{
-				$isDeleteCache = true;
-			}
-		}
-		if ($oModuleModel->getModuleConfig('join_extend_editor_welcome'))
-		{
-			$args = new stdClass();
-			$args->type = 'welcome';
-			$args->content = $oModuleModel->getModuleConfig($args->module);
-			$insertOutput = executeQuery('join_extend.insertEditorContent', $args);
-			if(!$insertOutput->toBool())
-			{
-				return $insertOutput;
-			}
-
-			$args->module = 'join_extend_editor_welcome';
-			$args->site_srl = 0;
-			$output = executeQuery('module.deleteModuleConfig', $args);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-			else
-			{
-				$isDeleteCache = true;
-			}
-		}
-		if ($oModuleModel->getModuleConfig('join_extend_editor_welcome_email'))
-		{
-			$args = new stdClass();
-			$args->type = 'welcome_email';
-			$args->content = $oModuleModel->getModuleConfig($args->module);
-			$insertOutput = executeQuery('join_extend.insertEditorContent', $args);
-			if(!$insertOutput->toBool())
-			{
-				return $insertOutput;
-			}
-
-			$args->module = 'join_extend_editor_welcome_email';
-			$args->site_srl = 0;
-			$output = executeQuery('module.deleteModuleConfig', $args);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
-			else
-			{
-				$isDeleteCache = true;
+				$args->module = $editorConfingName;
+				$args->site_srl = 0;
+				$output = executeQuery('module.deleteModuleConfig', $args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+				else
+				{
+					$isDeleteCache = true;
+				}
 			}
 		}
 
