@@ -81,6 +81,14 @@ class join_extendAdminView extends join_extend
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
+		$memberModuleConfig = getModel('member')->getMemberConfig();
+		$variableNames = array();
+		foreach ($memberModuleConfig->signupForm as $item)
+		{
+			$variableNames[] = $item->name;
+		}
+		Context::set('variableNames', $variableNames);
+
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('extend_var_config');
 	}
@@ -127,9 +135,10 @@ class join_extendAdminView extends join_extend
 		$this->setTemplateFile('after_config');
 	}
 
+	// TODO: Jumin what's the name :(.. change to Resident. chack again
 	function dispJoin_extendAdminJuminConfig()
 	{
-		$oJoinExtendModel = &getModel('join_extend');
+		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
 
@@ -194,7 +203,6 @@ class join_extendAdminView extends join_extend
 		}
 
 		Context::set('type', $type);
-
 		Context::set('config', $config);
 
 		$oTemplate = TemplateHandler::getInstance();
@@ -227,7 +235,7 @@ class join_extendAdminView extends join_extend
 				if ($val->member_srl)
 				{
 					$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
-					if ($member_info)
+					if (!empty($member_info))
 					{
 						$val->join_id = $member_info->user_id;
 					}
@@ -254,13 +262,20 @@ class join_extendAdminView extends join_extend
 		$this->setTemplateFile('invitation_config');
 	}
 
-	//TODO: get to member signup config for member extra vars.
 	function dispJoin_extendAdminCouponConfig()
 	{
 		$oMemberModel = getModel('member');
 		$oJoinExtendModel = getModel('join_extend');
 		$config = $oJoinExtendModel->getConfig();
 		Context::set('config', $config);
+
+		$memberModuleConfig = getModel('member')->getMemberConfig();
+		$variableNames = array();
+		foreach ($memberModuleConfig->signupForm as $item)
+		{
+			$variableNames[] = $item->name;
+		}
+		Context::set('variableNames', $variableNames);
 
 		$args = new stdClass();
 		$args->page = Context::get('page');

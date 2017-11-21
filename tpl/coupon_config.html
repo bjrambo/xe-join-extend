@@ -25,8 +25,10 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="coupon_var_name">{$lang->coupon_var_name}</label>
 			<div class="x_controls">
-				<input type="text" name="coupon_var_name" value="{$config->coupon_var_name}" class="inputTypeText w40" />
-
+				<select name="coupon_var_name" id="coupon_var_name">
+					<option value="">{$lang->notuse}</option>
+					<option loop="$variableNames => $val" value="{$val}" selected="selected"|cond="$config->coupon_var_name == $val">{$val}</option>
+				</select>
 				<a href="#coupon_var_name_number_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="coupon_var_name_number_help" class="x_help-block" hidden>{$lang->about_coupon_var_name}</p>
 			</div>

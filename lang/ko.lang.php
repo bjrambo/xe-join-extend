@@ -77,7 +77,7 @@
     $lang->man = '남';
     $lang->woman = '여';
     $lang->sex_var_name = '성별 확장 변수명';
-    $lang->about_sex_var_name = '주민등록번호를 이용하여 성별정보를 자동으로 입력합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 성별 정보의 <strong>입력항목 이름</strong>을 입력하세요. <br/>사용하지 않을 경우 비워두세요.';
+    $lang->about_sex_var_name = '주민등록번호를 이용하여 성별정보를 자동으로 입력합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 성별 정보의 <strong>입력항목 이름</strong>을 선택하세요. <br/>사용하지 않을 경우 미사용을 선택하세요.';
     $lang->man_value = '남성 값';
     $lang->about_man_value = '남성에 대해 설정한 값을 정확히 동일하게 입력하세요.';
     $lang->woman_value = '여성 값';
@@ -87,7 +87,7 @@
     $lang->sex_restrictions_w = '여성만 가입할 수 있습니다.';
 
     $lang->age_var_name = '나이 확장 변수명';
-    $lang->about_age_var_name = '주민등록번호를 이용하여 나이정보를 자동으로 입력합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 나이 정보의 <strong>입력항목 이름</strong>을 입력하세요. <br/>사용하지 않을 경우 비워두세요.';
+    $lang->about_age_var_name = '주민등록번호를 이용하여 나이정보를 자동으로 입력합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 나이 정보의 <strong>입력항목 이름</strong>을 선택하세요. <br/>사용하지 않을 경우 미사용을 선택하세요.';
         
     $lang->use_age_restrictions = '나이제한 사용';
     $lang->about_use_age_restrictions = '아래 설정된 나이만 가입을 받습니다. (만나이)';
@@ -167,7 +167,7 @@
     $lang->coupon_config = '가입쿠폰 설정';
     $lang->use_coupon = '가입쿠폰 사용';
     $lang->coupon_var_name = '쿠폰 확장 변수명';
-    $lang->about_coupon_var_name = '회원 관리 - 가입 폼 관리에 추가된 쿠폰 입력칸의 <strong>입력항목 이름</strong>을 입력하세요.';
+    $lang->about_coupon_var_name = '회원 관리 - 가입 폼 관리에 추가된 쿠폰 입력칸의 <strong>입력항목 이름</strong>을 선택하세요. 사용하지 않을경우 미사용을 선택하세요.';
     $lang->about_use_coupon = '가입쿠폰 기능을 사용하면 가입시 쿠폰번호를 입력한 회원은 쿠폰의 포인트를 지급 받습니다.';
     $lang->generate_coupon = '가입쿠폰 생성';
     $lang->receive_point = '받는 포인트';
@@ -176,5 +176,3 @@
     $lang->msg_incorrect_coupon = '유효하지 않은 쿠폰 번호입니다.';
     $lang->msg_used_coupon = '이미 사용된 쿠폰 번호입니다.';
     $lang->msg_expired_coupon = '유효기간이 지난 쿠폰입니다. (%s)';
-    
-?>
